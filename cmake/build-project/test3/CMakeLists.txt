@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20.0)
+project(test3 CXX)
+add_subdirectory(src)
+add_executable(app main.cpp)
+target_link_libraries(app PUBLIC testlib)
+target_include_directories(app PUBLIC ${PROJECT_SOURCE_DIR}/include)
