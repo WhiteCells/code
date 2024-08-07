@@ -1,0 +1,10 @@
+{
+    "host": "127.0.0.1",
+    "port": "4403",
+    "pool": {
+        "size": 10,
+        "timeout": 1000
+    },
+    "auth": "1&d2*D)_3$",
+    "secure": true
+}

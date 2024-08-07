@@ -1,0 +1,14 @@
+# vscode config
+# .vscode.bak
+# .vscode
+
+**/.vscode
+
+# build
+**/build
+
+# window output
+output.exe
+
+# linux output
+output
