@@ -10,7 +10,7 @@
                 "-g",
                 "-O0",
                 "-Wall",
-                "-std=c++20",
+                "-std=c++14",
                 "-fno-elide-constructors",
                 "-o",
                 "${workspaceFolder}/output"

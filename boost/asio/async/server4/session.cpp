@@ -16,6 +16,7 @@ Session::Session(asio::io_context &ioc, Server *server) :
 
 Session::~Session() {
     std::cerr << "~Session()" << std::endl;
+    socket_.close();
 }
 
 asio::ip::tcp::socket &Session::getSocket() {
@@ -27,29 +28,42 @@ const std::string &Session::getUuid() const {
 }
 
 void Session::start() {
+    memset(data_, 0, MAX_LENGTH);
     socket_.async_read_some(
-        asio::buffer(data_, MAX_MESSAGE_LEN),
+        asio::buffer(data_, MAX_LENGTH),
         std::bind(
             &Session::handleRead,
             this,
             std::placeholders::_1,
             std::placeholders::_2,
-            shared_from_this() // 只是为了增加引用计数，防止在读回调时 this 对象已销毁
+            shared_from_this() // 增加引用计数，防止在异步读时 this 对象已销毁
         )
     );
 }
 
 void Session::send(const std::string &buf) {
-    std::lock_guard<std::mutex> lock(send_lock_);
-    if (send_que_.size() > 0) {
-        send_pending_ = true;
-    }
-    send_que_.push(std::make_shared<MessageNode>(buf.c_str(), buf.length()));
-    if (send_pending_) {
+    if (buf.size() <= 0) {
+        std::cout << "[error] === buf size: 0 ===" << std::endl;
         return;
     }
-    socket_.async_write_some(
-        asio::buffer(buf),
+    std::lock_guard<std::mutex> lock(send_lock_);
+    std::size_t que_size = send_que_.size();
+    if (que_size > MAX_SEND_QUE) {
+        std::cout << "session id: " << uuid_ << " send queue fulled" << std::endl;
+        return;
+    }
+    send_que_.push(std::make_shared<MessageNode>(buf.c_str(), buf.length()));
+    if (que_size > 0) {
+        return;
+    }
+    std::shared_ptr<MessageNode> &node = send_que_.front();
+    // socket_.async_write_some(
+    asio::async_write(
+        socket_,
+        asio::buffer(
+            node->data_,
+            node->total_len_
+        ),
         std::bind(
             &Session::handleWrite,
             this,
@@ -87,6 +101,7 @@ void Session::handleRead(
         // 需要解析头部
         if (!header_processed_) {
 
+            // 头部未读完
             // 上一次处理的长度 + 当前处理的长度 < 头部规定长度
             // 受到的数据不足头部大小
             // 将已收到的数据放到头部接受缓冲区
@@ -140,7 +155,7 @@ void Session::handleRead(
             // 网络字节序转为本地字节序
             // message_len = asio::detail::socket_ops::network_to_host_short(message_len);
             // 长度非法
-            if (message_len > MAX_LENGTH) {
+            if (message_len <= 0 || message_len > MAX_LENGTH) {
                 std::cerr << "invalid data length " << message_len << std::endl;
                 server_->removeSession(uuid_);
                 return;
@@ -150,7 +165,7 @@ void Session::handleRead(
             receive_message_node_ = std::make_shared<MessageNode>(message_len);
             // bytes_transferred 就是剩余的信息长度（已更新）
 
-            // 已读的消息长度不满足消息数据的长度
+            // 已读的消息长度（已读字节 - 头部长度）不满足消息数据的长度
             // 数据未接收全，拷贝数据到接收节点
             // 更新 receive_message_node_ 的已接收长度
             // 清理 data_
@@ -174,6 +189,7 @@ void Session::handleRead(
                         shared_from_this()
                     )
                 );
+                // 头部处理完
                 header_processed_ = true;
                 return;
             }
@@ -198,8 +214,9 @@ void Session::handleRead(
             receive_message_node_->data_[receive_message_node_->total_len_] = '\0';
             std::cout << "receive data: " << receive_message_node_->data_ << std::endl;
 
-            send(std::string(receive_message_node_->data_));
-
+            send(std::string(receive_message_node_->data_, receive_message_node_->total_len_));
+            // 更新处理头部数据的状态
+            header_processed_ = false;
             if (bytes_transferred <= 0) {
                 memset(data_, 0, MAX_LENGTH);
                 socket_.async_read_some(
@@ -215,9 +232,7 @@ void Session::handleRead(
                 return;
             }
             // 还有需要解包的数据，这些数据为下一次接收的头部
-            // 更新处理头部数据的状态
             receive_header_node_->clear();
-            header_processed_ = false;
             continue;
         }
 
@@ -270,7 +285,8 @@ void Session::handleRead(
         send(send_data);
         // 清理接收缓冲区
         receive_message_node_->clear();
-
+        // 更新处理头部数据的状态，下次一次处理头部数据
+        header_processed_ = false;
         // 没有需要解包的数据
         // 继续异步去读
         if (bytes_transferred <= 0) {
@@ -289,8 +305,6 @@ void Session::handleRead(
         }
 
         // 还有需要解包的数据
-        // 更新处理头部数据的状态，下次一次处理头部数据
-        header_processed_ = false;
         continue;
     }
 
@@ -301,15 +315,10 @@ void Session::handleWrite(
     const boost::system::error_code &err,
     std::shared_ptr<Session> self
 ) {
-    std::cout << "[handleWrite] session use_count: " << self.use_count() << std::endl;
-
-    if (err.value() != 0) {
+    if (err) {
         std::cerr << "[error] [handleWrite] error msg: " << err.message() << std::endl;
-        std::cout << "[error] [handleWrite] session use_count: " << self.use_count() << std::endl;
-        // 这里并没有销毁 session
-        // 而是等到 handleWrite 处理完成后
+        // session 引用计数 - 1
         server_->removeSession(uuid_);
-        std::cerr << "[error] [handleWrite] session use_count: " << self.use_count() << std::endl;
         return;
     }
 
@@ -318,7 +327,9 @@ void Session::handleWrite(
     send_que_.pop();
     if (!send_que_.empty()) {
         auto &front_node = send_que_.front();
-        socket_.async_write_some(
+        // socket_.async_write_some(
+        asio::async_write(
+            socket_,
             asio::buffer(front_node->data_, front_node->total_len_),
             std::bind(
                 &Session::handleWrite,

@@ -7,14 +7,17 @@ using namespace std;
 class MyException {
 public:
     MyException(const char *str) {
+        std::cout << "MyException()" << std::endl;
         error_ = new char[strlen(str) + 1];
         strcpy(error_, str);
     }
     MyException(const MyException &me) {
+        std::cout << "MyException(const MyException &)" << std::endl;
         this->error_ = new char[strlen(me.error_) + 1];
         strcpy(this->error_, me.error_);
     }
     MyException &operator=(const MyException &me) {
+        std::cout << "operator=(const MyException &)" << std::endl;
         if (this->error_ != NULL) {
             delete[] error_;
             error_ = NULL;
@@ -23,10 +26,11 @@ public:
         strcpy(this->error_, me.error_);
         return *this;
     }
-    void what() {
+    void what() const {
         cout << error_ << endl;
     }
     ~MyException() {
+        std::cout << "~MyException()" << std::endl;
         if (error_ != NULL) {
             delete[] error_;
             error_ = NULL;
@@ -43,7 +47,7 @@ void foo() {
 void test() {
     try {
         foo();
-    } catch (MyException e) {
+    } catch (const MyException &e) {
         e.what(); // 调用异常对象
     }
 }

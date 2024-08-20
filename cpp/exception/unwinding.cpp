@@ -14,6 +14,7 @@ public:
 int divide(int x, int y) {
     A a;
     if (!y) {
+        cout << "+++" << endl;
         throw y;
     }
     cout << "----" << endl;

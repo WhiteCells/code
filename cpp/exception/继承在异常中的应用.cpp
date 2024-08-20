@@ -13,7 +13,7 @@ class TargetSapceNullException : public BaseMyException {
 public:
     // 重写父类纯虚函数
     virtual void what() {
-        cout << "目标空间为空" << endl;
+        cout << "Target Sapce Null" << endl;
     }
     ~TargetSapceNullException() {}
 };
@@ -23,7 +23,7 @@ class SourceSpaceNullException : public BaseMyException {
 public:
     // 重写父类纯虚函数
     virtual void what() {
-        cout << "源空间为空" << endl;
+        cout << "Source Space Null" << endl;
     }
     ~SourceSpaceNullException() {}
 };
@@ -47,10 +47,9 @@ int main() {
     char buf[1024] = {0};
     try {
         copy_str(buf, NULL);
-    }
-    catch (BaseMyException &e) {
+        cout << buf << endl;
+    } catch (BaseMyException &e) {
         e.what();
     }
-    cout << buf << endl;
     return 0;
 }

@@ -1,0 +1,1 @@
+set(session_src ${PROJECT_SOURCE_DIR}/session/session.cpp)

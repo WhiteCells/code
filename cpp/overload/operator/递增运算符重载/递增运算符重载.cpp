@@ -26,9 +26,9 @@ private:
 };
 
 // &
-ostream &operator<<(ostream &cout, MyInteger myint){
-    cout << myint.m_Num;
-    return cout;
+ostream &operator<<(ostream &out, MyInteger myint){
+    out << myint.m_Num;
+    return out;
 }
 
 void test1() {

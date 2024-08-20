@@ -6,6 +6,10 @@
 #include <queue>
 #include "message_node.h"
 
+#define MAX_SEND_QUE 100
+#define MAX_RECE_QUE 10000
+#define MAX_LENGTH 1024 * 2
+
 class Server;
 
 namespace asio = boost::asio;
@@ -34,8 +38,6 @@ private:
         const boost::system::error_code &err,
         std::shared_ptr<Session> session
     );
-
-    enum { MAX_MESSAGE_LEN = 1024 };
 
     asio::ip::tcp::socket socket_;
     std::string uuid_;

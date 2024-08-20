@@ -1,34 +1,49 @@
 #include<iostream>
-using namespace std;
 
-// 这个函数只能抛出 int，float，char 三种类型异常
-// 抛出其他类型就会报错
-// C++17 中，这种动态异常规范是不允许的
-// void foo1() throw(int, float, char) {
-//     throw 1;
-// }
+/*
+C++11 标准已经弃用了异常规范，并在 C++17 标准中将其移除。主要原因如下：
+
+难以维护： 随着代码的演化，维护异常规范变得越来越困难。
+运行时开销： 编译器需要生成额外的代码来检查异常规范，这会增加运行时开销。
+难以与模板和虚函数配合使用： 异常规范在模板和虚函数的使用中存在一些问题。
+
+
+noexcept 关键字： C++11 引入了 noexcept 关键字，用于声明一个函数不会抛出任何异常。
+文档和注释： 使用文档和注释来描述函数可能抛出的异常类型。
+
+ */
+
+// 只允许抛出 int，float，char 三种类型异常
+void foo1() throw(int, float, char) {}
 
 // 空异常规范表示函数可以抛出任何类型的异常
 void foo2() throw() {
     try {
-        throw 1;
+        throw std::runtime_error("runtime error");
     } catch (...) {
         std::cout << "except" << std::endl;
     }
 }
 
-// 可以抛出任何异常
-void foo3() {
+// 允许抛出任何异常
+void foo3() {}
 
+// 不允许抛出任何异常
+void foo3() noexcept {
+// void foo4() noexcept(true) {
+    throw std::runtime_error("runtime error");
 }
 
-int main() {
+// 允许抛出任何异常
+void foo5() noexcept(false) {
+    throw std::runtime_error("runtime error");
+}
+
+int main(int argc, char *argv[]) {
     try {
-        foo2();
-    } catch (char *str) {
-        cout << "hello" << str << endl;
-    } catch (...) { // 捕获所有异常
-        cout << "未知类型异常" << endl;
+        foo3();
+    } catch (const std::exception &e) {
+        std::cout << "exception: " << e.what() << std::endl;
     }
     return 0;
 }

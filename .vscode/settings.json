@@ -95,6 +95,7 @@
         "api.h": "c",
         "mysql_driver.h": "c",
         "prepared_statement.h": "c",
-        "mysql_connection.h": "c"
+        "mysql_connection.h": "c",
+        "strstream": "cpp"
     },
 }

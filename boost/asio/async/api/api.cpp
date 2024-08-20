@@ -66,8 +66,8 @@ public:
 
     void write1(const std::string &buf) {
         send_queue_.emplace(std::make_shared<MessageNode>(
-            buf.c_str(), buf.length())
-        );
+            buf.c_str(), buf.length()
+        ));
         if (send_pending_) {
             // 存在未发送完的数据
             // 让回调函数继续执行

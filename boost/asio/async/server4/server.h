@@ -1,8 +1,10 @@
-#include <boost/asio.hpp>
+#ifndef _SERVER_H_
+#define _SERVER_H_
+
+#include "session.h"
 #include <memory>
 #include <unordered_map>
 #include <string>
-#include "session.h"
 
 namespace asio = boost::asio;
 
@@ -26,3 +28,5 @@ private:
     asio::ip::tcp::acceptor acceptor_;
     std::unordered_map<std::string, SessionSPtr> sessions_;
 };
+
+#endif // _SERVER_H_

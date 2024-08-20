@@ -37,9 +37,7 @@ void Server::handleAccept(
         std::cerr << err.message() << std::endl;
         return;
     }
-    std::cout << "client ip: "
-        << session->getSocket().remote_endpoint().address().to_string()
-        << std::endl;
+    std::cout << "client ip: " << session->getSocket().remote_endpoint().address().to_string()<< std::endl;
 
     sessions_[session->getUuid()] = session;
     session->start();

@@ -12,9 +12,9 @@ private:
 };
 
 // operator<< 不能写在成员函数, 要写在全局函数
-ostream &operator<<(ostream &os, const A &p) {
-    os << p.m_a << p.m_b << endl;
-    return os;
+ostream &operator<<(ostream &out, const A &p) {
+    out << p.m_a << p.m_b << endl;
+    return out;
 }
 
 void test01() {

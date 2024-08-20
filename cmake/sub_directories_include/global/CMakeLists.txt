@@ -1,0 +1,1 @@
+add_library(global_lib SHARED global.cpp)

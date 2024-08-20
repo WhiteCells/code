@@ -10,9 +10,9 @@ public:
     int m_Age;
 };
 
-std::istream &operator>>(std::istream &is, Person &p) {
-    is >> p.m_Name >> p.m_Age;
-    return is;
+std::istream &operator>>(std::istream &in, Person &p) {
+    in >> p.m_Name >> p.m_Age;
+    return in;
 }
 
 std::ostream &operator<<(std::ostream &os, const Person &p) {

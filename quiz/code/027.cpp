@@ -1,9 +1,7 @@
 #include <iostream>
 
 struct A {
-    virtual std::ostream &put(std::ostream &o) const {
-        return o << 'A';
-    }
+    virtual std::ostream &put(std::ostream &o) const { return o << 'A'; }
 };
 
 struct B : A {
@@ -12,11 +10,9 @@ struct B : A {
     }
 };
 
-std::ostream &operator<<(std::ostream &o, const A &a) {
-    return a.put(o);
-}
+std::ostream &operator<<(std::ostream &o, const A &a) { return a.put(o); }
 
-int main() {
-    B b;
-    std::cout << b;
+int main(int argc, char *argv[]) {
+    std::cout << "hello world";
+    return 0;
 }
