@@ -4,9 +4,10 @@ Singleton *Singleton::instance_ = nullptr;
 
 std::mutex Singleton::mutex_;
 
-Singleton *Singleton::getInstance() {
+Singleton *Singleton::getInstance()
+{
     static CleanUp cleanup;
-    if (instance_ == nullptr) {
+    if (instance_ == nullptr) { // 减少一次加锁
         mutex_.lock();
         if (instance_ == nullptr) {
             instance_ = new Singleton();

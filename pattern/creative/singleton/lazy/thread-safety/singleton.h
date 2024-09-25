@@ -3,7 +3,8 @@
 
 #include <mutex>
 
-class Singleton {
+class Singleton
+{
 public:
     static Singleton *getInstance();
 
@@ -11,12 +12,13 @@ private:
     Singleton() {}
     ~Singleton() {}
 
-    class CleanUp {
+    class CleanUp
+    {
     public:
-        ~CleanUp() {
+        ~CleanUp()
+        {
             if (Singleton::instance_) {
                 delete Singleton::instance_;
-                Singleton::instance_ = nullptr;
             }
         }
     };

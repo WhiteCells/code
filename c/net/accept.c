@@ -1,9 +1,9 @@
-#include <sys/socket.h>  /* for listen() */
-#include <netinet/in.h>  /* for struct sockaddr_in */
-#include <arpa/inet.h>   /* for inet_addr() */
-#include <unistd.h>      /* for close() */
-#include <string.h>      /* for bzero() */
-#include <stdio.h>       /* for perror() */
+#include <sys/socket.h>  /* listen() */
+#include <netinet/in.h>  /* struct sockaddr_in */
+#include <arpa/inet.h>   /* inet_addr() */
+#include <unistd.h>      /* close() */
+#include <string.h>      /* bzero() */
+#include <stdio.h>       /* perror() */
 
 int main(int argc, char *argv[]) {
     int sfd = socket(AF_INET, SOCK_STREAM, 0);

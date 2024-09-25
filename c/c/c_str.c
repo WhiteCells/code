@@ -1,31 +1,15 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <assert.h>
 
-// 只可以修改 *str
-// str 修改的实参并不修改
-char *strcpy_(char *str, const char *src) {
-    assert(src);
+char *strcpy2(char *str, const char *src) {
     char *dest = str;
-    while ((*str++ = *src++) != '\0') {}
-    return dest;
-}
-
-void copy(char **str) {
-    *str = NULL;
+    while ((*dest++ = *src++) != '\0') {}
+    return str;
 }
 
 int main() {
-    // char *str = (char *)malloc(10 * sizeof(char));
-    // strcpy_(str, "NULL");
-    // printf("%s\n", str);
-
-    char *str2 = "NULL";
-    copy(&str2);
-    if (str2) {
-        printf("%s\n", str2);
-    } else {
-        printf("str2 is null\n");
-    }
+    char buf[16];
+    strcpy2(buf, "123456");
+    printf("%s\n", buf);
     return 0;
 }

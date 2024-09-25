@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package node;
+
+message RequestNode {
+    int32 id = 1;
+    int32 len = 2;
+    string data = 3;
+}
+
+message ResponseNode {
+    int32 error = 1;
+    string data = 2;
+}
+
+service DataServer {
+    rpc getNode(RequestNode) returns (ResponseNode) {}
+}

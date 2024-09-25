@@ -1,0 +1,8 @@
+QTextEdit {
+    background-color: rgb(58, 58, 58);
+    border: 0px;
+}
+
+QSplitter::handle {
+    background-color: rgb(99, 99, 99);
+}

@@ -12,26 +12,20 @@
 struct SQLConnection {
     SQLConnection(sql::Connection *connect, int64_t last_oper_time) :
         connect_(connect),
-        last_oper_time_(last_oper_time) {}
+        last_oper_time_(last_oper_time) {
+    }
     std::unique_ptr<sql::Connection> connect_;
     int64_t last_oper_time_;
 };
 
 class MysqlConnectPool {
 public:
-    /**
-     * @brief 
-     * @param pool_size size of my sql connection pool
-     * @param url mysql url address `host:port`
-     * @param user mysql user
-     * @param pass mysql password
-     * @param schema mysql database name
-     */
-    MysqlConnectPool(std::size_t pool_size,
-                     const std::string &url,
-                     const std::string &user,
-                     const std::string &pass,
-                     const std::string &schema);
+    MysqlConnectPool(
+        std::size_t pool_size,
+        const std::string &url,
+        const std::string &user,
+        const std::string &pass,
+        const std::string &schema);
     ~MysqlConnectPool();
     std::unique_ptr<SQLConnection> getConnect();
     void recycleConnect(std::unique_ptr<SQLConnection> connection);

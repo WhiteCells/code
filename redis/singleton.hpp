@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <mutex>
-#include <atomic>
+#include <iostream>
 
 template<typename T>
 class Singleton {
@@ -29,7 +29,7 @@ Singleton<T>::~Singleton() {
 template<typename T>
 std::shared_ptr<T> Singleton<T>::getInstance() {
     std::once_flag once;
-    std::call_once(once, [this]() {
+    std::call_once(once, []() {
         instance_ = std::make_shared<T>(new T());
     });
     return instance_;

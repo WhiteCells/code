@@ -1,16 +1,25 @@
 #include <iostream>
 
-class TreeNode {
+class TreeNode
+{
 public:
-    TreeNode() : val(0), left(nullptr), right(nullptr) {}
-    TreeNode(int val) : val(val), left(nullptr), right(nullptr) {}
-    TreeNode(int val, TreeNode *left, TreeNode *right) : val(val), left(left), right(right) {}
+    TreeNode() :
+        val(0), left(nullptr), right(nullptr) {}
+
+    TreeNode(int val) :
+        val(val), left(nullptr), right(nullptr) {}
+
+    TreeNode(int val, TreeNode *left, TreeNode *right) :
+        val(val), left(left), right(right) {}
+
     void test() {}
+
     TreeNode *left, *right;
     int val;
 };
 
-void morrisMid2(TreeNode *root) {
+void morrisMid2(TreeNode *root)
+{
     while (root) {
         if (!root->right) {
             // 右子节点为空
@@ -18,7 +27,8 @@ void morrisMid2(TreeNode *root) {
             // 遍历当前节点的左子节点
             std::cout << root->val << std::endl;
             root = root->left;
-        } else {
+        }
+        else {
             // 右子节点非空
             TreeNode *pre = root->right;
             while (pre->left && pre->left != root) {
@@ -31,7 +41,8 @@ void morrisMid2(TreeNode *root) {
                 // 遍历当前节点的右子节点
                 pre->left = root;
                 root = root->right;
-            } else {
+            }
+            else {
                 // 如果最左节点的左指针非空
                 // 将最左节点的左指针置为空
                 // 处理当前节点
@@ -44,7 +55,8 @@ void morrisMid2(TreeNode *root) {
     }
 }
 
-void morrisMid(TreeNode *root) {
+void morrisMid(TreeNode *root)
+{
     TreeNode *cur = root;
     while (cur) {
         // 当前节点左节点为空
@@ -53,7 +65,8 @@ void morrisMid(TreeNode *root) {
             std::cout << cur->val << std::endl;
             // 遍历当前节点右节点
             cur = cur->right;
-        } else {
+        }
+        else {
             // 当前节点左节点非空
             // 找到当前节点左子树的最右节点，前驱节点
             TreeNode *pre = cur->left;
@@ -68,7 +81,8 @@ void morrisMid(TreeNode *root) {
                 pre->right = cur;
                 // 遍历当前节点左子树
                 cur = cur->left;
-            } else {
+            }
+            else {
                 // 前驱节点右节点被设置
                 // 前驱节点置为空，还原二叉树
                 pre->right = nullptr;
@@ -81,12 +95,18 @@ void morrisMid(TreeNode *root) {
     }
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[])
+{
     TreeNode node1(4);
     TreeNode node2(5);
     TreeNode node3(3, &node1, &node2);
     TreeNode node4(2);
     TreeNode node5(1, &node4, &node3);
+    //     1
+    //    / \
+    //   2   3
+    //      / \
+    //     4   5
     // morrisMid2(&node5);
     // std::cout << node1.val << std::endl;
     // std::cout << node2.val << std::endl;

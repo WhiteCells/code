@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file alias="eye_off">eye_off.png</file>
+        <file alias="eye_on">eye_on.png</file>
+        <file alias="close">close.png</file>
+        <file alias="down">down.png</file>
+        <file alias="up">up.png</file>
+    </qresource>
+</RCC>

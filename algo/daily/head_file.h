@@ -31,7 +31,6 @@
 #include <bitset>
 #include <array>
 
-
 // c
 #include <ctime>
 #include <cstdlib>
@@ -41,7 +40,6 @@
 
 // smart pointer
 #include <memory>
-
 
 // #include <bits/stdc++.h>
 

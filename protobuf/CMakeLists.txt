@@ -13,7 +13,5 @@ aux_source_directory(${PROJECT_SOURCE_DIR}/ src)
 add_executable(${PROJECT_NAME} ${src})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE 
-    gRPC::grpc++_reflection
-    protobuf::libprotobuf
     gRPC::grpc++
 )

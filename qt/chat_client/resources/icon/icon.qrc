@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file alias="chat_btn_icon">chat_btn_icon.png</file>
+        <file alias="chat_btn_icon_hover">chat_btn_icon_hover.png</file>
+    </qresource>
+</RCC>
