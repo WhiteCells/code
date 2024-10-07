@@ -1,15 +1,14 @@
-# vscode config
-# .vscode.bak
-# .vscode
-
 **/.vscode
-
-**/venv
 
 **/.cache
 
-# build
+**/venv
+
+**/__pycache__
+
 **/build
+
+
 
 # window output
 output.exe

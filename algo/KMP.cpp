@@ -2,50 +2,72 @@
 #include <vector>
 #include <string>
 
-void getNext(
-    const std::string &str,
-    std::vector<int> &next)
+// 计算部分匹配表（next 数组）
+std::vector<int> computeNextArray(const std::string &pattern)
 {
-    int n = str.size();
-    int i = 1, j = 0;
-    next[0] = 0;
-    while (i < n) {
-        if (j == 0 || str[i] == str[j]) {
-            ++i;
-            ++j;
-            next[i] = j;
+    int m = pattern.size();
+    std::vector<int> next(m, 0);
+    int j = 0; // 记录当前匹配的前缀长度
+
+    for (int i = 1; i < m; i++) {
+        // 不匹配时，回退到前一个匹配的位置
+        while (j > 0 && pattern[i] != pattern[j]) {
+            j = next[j - 1];
         }
-        else {
-            j = next[i];
+
+        // 如果字符匹配，当前匹配长度加一
+        if (pattern[i] == pattern[j]) {
+            j++;
         }
+
+        next[i] = j; // 记录前缀匹配的长度
     }
+    return next;
 }
 
-bool KMP(
-    const std::string &main_str,
-    const std::string &sub_str,
-    const std::vector<int> &next)
+// KMP 字符串匹配
+// 返回所有匹配的位置
+std::vector<int> KMP(const std::string &text, const std::string &pattern)
 {
-    int i = 0, j = 0;
-    int n = sub_str.size();
-    while (i < n) {
-        if (main_str[i] == sub_str[j]) {
-            ++j;
+    std::vector<int> next = computeNextArray(pattern);
+    std::vector<int> result;
+    int n = text.size();
+    int m = pattern.size();
+    int j = 0; // 模式串的匹配索引
+
+    for (int i = 0; i < n; i++) {
+        // 如果当前字符不匹配，使用 next 数组找到新的匹配位置
+        while (j > 0 && text[i] != pattern[j]) {
+            j = next[j - 1];
         }
-        else {
-            j = next[i];
+
+        // 如果字符匹配，模式串索引加一
+        if (text[i] == pattern[j]) {
+            j++;
         }
-        ++i;
+
+        // 如果匹配到了整个模式串，记录匹配位置
+        if (j == m) {
+            result.push_back(i - m + 1);
+            j = next[j - 1]; // 继续寻找下一个匹配
+        }
     }
-    return i == j;
+
+    return result;
 }
 
-int main(int argc, char *argv[])
+int main()
 {
-    std::string main_str = "abcabac";
-    std::string sub_str = "aba";
-    std::vector<int> next(main_str.size());
-    getNext(main_str, next);
-    std::cout << KMP(main_str, sub_str, next) << std::endl;
+    std::string text = "ABABDABACDABABCABAB";
+    std::string pattern = "ABABCABAB";
+
+    std::vector<int> matches = KMP(text, pattern);
+
+    std::cout << "Pattern found at indices: ";
+    for (int index : matches) {
+        std::cout << index << " ";
+    }
+    std::cout << std::endl;
+
     return 0;
 }

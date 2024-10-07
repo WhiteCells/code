@@ -1,6 +1,7 @@
 #include <iostream>
 
-int pow(int x, int y) {
+int pow(int x, int y)
+{
     int res = 1;
     while (y) {
         if (y & 1) {
@@ -12,7 +13,8 @@ int pow(int x, int y) {
     return res;
 }
 
-int main(int argc, char *argv[]) {
-    std::cout << pow(2, 5) << std::endl;;
+int main(int argc, char *argv[])
+{
+    std::cout << pow(2, 5) << std::endl;
     return 0;
 }

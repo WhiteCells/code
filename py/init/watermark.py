@@ -68,7 +68,7 @@ def process_images(input_dir, output_dir, watermark_text, font_path, font_size, 
 # 获取用户输入
 input_directory = "/home/cells/下载/img"      # 输入图片的目录
 output_directory = "/home/cells/下载/out"     # 输出图片的目录
-watermark = "喜洋洋生鲜超市 2024/"              # 水印文本
+watermark = "2024 1 - 1/"              # 水印文本
 font_path = "/usr/share/fonts/msyh.ttc"      # 字体路径
 font_size = 120                              # 修改水印字体大小
 color = (255, 0, 0, 128)  # 半透明红色水印
