@@ -124,6 +124,7 @@ migrations/
 *.db
 
 # 文件上传
+py/flask-server/static/upload/template/
 !py/flask-server/static/upload/template/template.xlsx
 
 # flask session

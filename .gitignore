@@ -7,11 +7,3 @@
 **/__pycache__
 
 **/build
-
-
-
-# window output
-output.exe
-
-# linux output
-output
