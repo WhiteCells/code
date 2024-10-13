@@ -1,23 +1,30 @@
-#include<iostream>
-using namespace std;
-#include<vector>
-#include<algorithm>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
-class Person {
+using namespace std;
+
+class Person
+{
 public:
-    Person(string name, int age) :m_Name(name), m_Age(age) {}
+    Person(string name, int age) :
+        m_Name(name), m_Age(age) {}
     // 重载 == 让底层 find 知道 == 方式
-    bool operator==(const Person& p) {
-       if (this->m_Name == p.m_Name && this->m_Age == p.m_Age) return true;
-       else return false;
+    bool operator==(const Person &p)
+    {
+        if (this->m_Name == p.m_Name && this->m_Age == p.m_Age)
+            return true;
+        else
+            return false;
     }
     string m_Name;
     int m_Age;
 };
 
 // 查找内置数据类型
-void test1() {
-    vector<int>v;
+void test1()
+{
+    vector<int> v;
     for (int i = 0; i < 10; ++i) {
         v.push_back(i);
     }
@@ -32,8 +39,9 @@ void test1() {
 }
 
 // 查找自定义数据类型
-void test2() {
-    vector<Person>v;
+void test2()
+{
+    vector<Person> v;
     Person p1("李四", 19);
     Person p2("张三", 19);
     Person p3("王五", 19);
@@ -52,7 +60,8 @@ void test2() {
     }
 }
 
-int main() {
+int main()
+{
     test1();
     test2();
     return 0;

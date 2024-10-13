@@ -1,46 +1,64 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
-#include<string>
-#include<vector>
-#include<algorithm>
+#include <string>
+#include <vector>
+#include <algorithm>
 
-class Person {
+class Person
+{
 public:
-    Person(string name, int age) :m_Name(name), m_Age(age) {}   
+    Person(string name, int age) :
+        m_Name(name), m_Age(age) {}
     string m_Name;
     int m_Age;
 };
 
-class Greater5 {
+class Greater5
+{
 public:
-    bool operator()(const int& x) {
-        if (x > 5) return true;
-        else return false;
+    bool operator()(const int &x)
+    {
+        if (x > 5)
+            return true;
+        else
+            return false;
     }
 };
 
-class Greater20 {
+class Greater20
+{
 public:
-    bool operator()(const Person& p) {
-        if (p.m_Age > 20) return true;
-        else return false;
+    bool operator()(const Person &p)
+    {
+        if (p.m_Age > 20)
+            return true;
+        else
+            return false;
     }
 };
 
-bool Greater8(const int& x) {
-    if (x > 8) return true;
-    else return false;
+bool Greater8(const int &x)
+{
+    if (x > 8)
+        return true;
+    else
+        return false;
 }
 
-bool Greater30(const Person& p) {
-    if (p.m_Age > 30) return true;
-    else return false;
+bool Greater30(const Person &p)
+{
+    if (p.m_Age > 30)
+        return true;
+    else
+        return false;
 }
 
 // 内置数据类型 find_if
-void test01() {
-    vector<int>v;
-    for (int i = 0; i < 10; ++i)  v.push_back(i + 1);
+void test01()
+{
+    vector<int> v;
+    for (int i = 0; i < 10; ++i)
+        v.push_back(i + 1);
 
     vector<int>::iterator it1 = find_if(v.begin(), v.end(), Greater5()); // 传入仿函数（谓词）
     vector<int>::iterator it2 = find_if(v.begin(), v.end(), Greater8);   // 传入普通函数
@@ -60,8 +78,9 @@ void test01() {
 }
 
 // 自定义数据类型 find_if
-void test02() {
-    vector<Person>v;
+void test02()
+{
+    vector<Person> v;
 
     Person p1("张三", 18);
     Person p2("张三", 30);
@@ -90,7 +109,8 @@ void test02() {
     }
 }
 
-int main() {
+int main()
+{
     test01();
     test02();
     system("pause");

@@ -1,3 +1,6 @@
+#include <iostream>
+#include <type_traits>
+
 struct A
 {
     A() = default;
@@ -36,7 +39,7 @@ void reference()
     f(ca);
     f<const int &>(ca);
 
-    const int &cra = 10;
+    const int &cra = a;
     f(cra);
     f<const int &>(cra);
 
@@ -51,11 +54,28 @@ constexpr T &&forward(T &Arg) noexcept
     return static_cast<T &&>(Arg);
 }
 
+template <typename T>
+constexpr void perfect_forword(T &&arg) noexcept
+{
+    if (std::is_lvalue_reference<decltype(arg)>::value) {
+        std::cout << "is lvalue reference" << std::endl;
+    }
+    else if (std::is_rvalue_reference<decltype(arg)>::value) {
+        std::cout << "is rvalue reference" << std::endl;
+    }
+}
+
 int main(int argc, char *argv[])
 {
+    reference();
+    
     int a = 10;
     ::forward<int>(a);    // 返回 int，   因为 T 为 int，   所以 T && 是 int&&
     ::forward<int &>(a);  // 返回 int &， 因为 T 为 int &， 所以 T && 是 int &
     ::forward<int &&>(a); // 返回 int &&，因为 T 为 int &&，所以 T && 为 int &&
+
+    perfect_forword(a);
+    perfect_forword(std::move(a));
+    perfect_forword(int {1});
     return 0;
 }
