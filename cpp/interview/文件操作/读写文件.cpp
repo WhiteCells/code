@@ -14,7 +14,8 @@
 // std::ios_base::cur
 // std::ios_base::end
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     // std::fstream fs("./message.txt", std::ios::in | std::ios::out | std::ios::app);
     std::fstream fs("./message.txt", std::ios::in | std::ios::out);
     if (!fs.is_open()) {

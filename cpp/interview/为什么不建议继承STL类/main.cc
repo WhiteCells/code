@@ -3,7 +3,7 @@
 #include <inttypes.h>
 #include <sstream>
 
-// 应该使用组合而不是进程，标准库的类没有析构函数
+// 应该使用组合而不是继承，标准库的类没有虚析构函数，导致析构时不会调用父类析构函数
 class MyString : public std::string {
 public:
     int toInt() {

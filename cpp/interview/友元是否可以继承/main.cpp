@@ -1,5 +1,7 @@
 #include <iostream>
 
+// 友元不可以继承
+
 class Node {
     friend void foo();
     friend class Session;
@@ -15,7 +17,8 @@ private:
     int len_;
 };
 
-class ReceiveNode : public Node {
+class ReceiveNode : public Node
+{
 public:
     ReceiveNode() {}
     ~ReceiveNode() {}
