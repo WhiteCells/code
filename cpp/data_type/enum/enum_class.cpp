@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 enum class STATUS {
     ERROR1,
@@ -6,11 +7,18 @@ enum class STATUS {
     ERROR3,
 };
 
-enum class STATUS2 : int {
+enum class STATUS3 : bool {
     ERROR1,
     ERROR2,
-    ERROR3,
 };
+
+enum class STATUS2 : int { ERROR1 };
+enum class STATUS4 : char {};
+enum class STATUS5 : unsigned char {};
+enum class Status : short {};
+enum class Status2 : unsigned short {};
+enum class Status3 : unsigned long {};
+enum class Status4 : long {};
 
 enum CODE1 {
     CODE1_ERROR1,
@@ -25,7 +33,8 @@ enum CODE2 {
     CODE2_ERROR3,
 };
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     // std::cout << STATUS::ERROR1 << std::endl;
     // printf("%d\n", (int)STATUS::ERROR1);
     printf("%d\n", STATUS2::ERROR1);

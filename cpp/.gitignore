@@ -1,8 +1,9 @@
-!/.vscode
-/.vscode/settings.json
+!.vscode
 
 # window output
 output.exe
 
 # linux output
 output
+
+/build
