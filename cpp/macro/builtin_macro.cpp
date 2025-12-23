@@ -3,6 +3,9 @@
 void cplusplus() {
 #ifdef __cplusplus
     switch (__cplusplus) {
+        case 202302L:
+            std::cout << "C++23" << std::endl;
+            break;
         case 202002L:
             std::cout << "C++20" << std::endl;
             break;
