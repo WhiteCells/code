@@ -139,31 +139,59 @@ def transform_one(first_row: pd.Series) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
-    transform_one(
-        {
-            "prov": "",
-            "city": "",
-            "district": "武汉",
-            "town": "",
-            "village": "",
-            "community": "21号院",
-            "communityno": "",
-            "building_type": "",
-            "village_group": "",
-            "devzone": "",
-            "distance": "",
-            "intersection": "",
-            "road": "南大街",
-            "subroad": "",
-            "roadno": "",
-            "houseno": "1号楼",
-            "cellno": "2单元",
-            "floorno": "",
-            "roomno": "201室",
-            "poi": "",
-            "subpoi": "",
-            "detail": "",
-            "address": "",
-            "std_label": 0,
-        }
+    """
+    """
+    # transform_one(
+    #     {
+    #         "prov": "",
+    #         "city": "",
+    #         "district": "武汉",
+    #         "town": "",
+    #         "village": "",
+    #         "community": "21号院",
+    #         "communityno": "",
+    #         "building_type": "",
+    #         "village_group": "",
+    #         "devzone": "",
+    #         "distance": "",
+    #         "intersection": "",
+    #         "road": "南大街",
+    #         "subroad": "",
+    #         "roadno": "",
+    #         "houseno": "1号楼",
+    #         "cellno": "2单元",
+    #         "floorno": "",
+    #         "roomno": "201室",
+    #         "poi": "",
+    #         "subpoi": "",
+    #         "detail": "",
+    #         "address": "",
+    #         "std_label": 0,
+    #     }
+    # )
+
+    import pandas as pd
+
+    df = pd.DataFrame(
+        [
+            {
+                "prov": "湖北省",
+                "city": "  武汉市",
+                "district": "武昌区",
+                "town": "积玉桥街道",
+            },
+            {
+                "prov": "湖南省",
+                "city": "  武汉市",
+                "district": "武昌区",
+                "town": "积玉桥街道",
+            },
+        ]
     )
+    m = pd.Series(False, index=df.index)
+    m |= df["prov"].str.contains("湖北省", na=False)
+    m |= df["prov"].str.contains("湖北省", na=False)
+    # m |= df["city"].str.contains("武汉市", na=False)
+    # m |= df["district"].str.contains("武昌区", na=False)
+    # m |= df["town"].str.contains("积玉桥街道", na=False)
+    print(m)
