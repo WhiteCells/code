@@ -1,0 +1,32 @@
+pkgname=netcatty-bin
+pkgver=1.0.89
+pkgrel=1
+pkgdesc='Netcatty prebuilt binary package'
+arch=('x86_64')
+url='https://github.com/binaricat/Netcatty'
+license=('custom')
+provides=('netcatty')
+conflicts=('netcatty')
+depends=()
+options=('!strip')
+
+_debfile="Netcatty-${pkgver}-linux-amd64.deb"
+
+source_x86_64=("$_debfile::https://github.com/binaricat/Netcatty/releases/download/v${pkgver}/$_debfile")
+sha256sums_x86_64=('SKIP')
+noextract=("$_debfile")
+
+package() {
+  local _debdir="$srcdir/deb"
+  mkdir -p "$_debdir"
+
+  bsdtar -xf "$srcdir/$_debfile" -C "$_debdir"
+
+  local _data_tar
+  _data_tar="$(find "$_debdir" -maxdepth 1 -type f -name 'data.tar.*' -print -quit)"
+  [[ -n "$_data_tar" ]] || return 1
+
+  bsdtar -xf "$_data_tar" -C "$pkgdir"
+}
+
+# makepkg -si
